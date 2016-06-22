@@ -1,7 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { deepOrange500 } from 'material-ui/styles/colors';
+import RaisedButton from 'material-ui/RaisedButton';
+import Badge from 'material-ui/Badge';
+import Avatar from 'material-ui/Avatar';
 import * as sampleActions from '../actions/sample';
+
+const styles = {
+  container: {
+    textAlign: 'center',
+    paddingTop: 200
+  }
+};
+
+const muiTheme = getMuiTheme({
+  palette: {
+    accent1Color: deepOrange500
+  }
+});
 
 class Sample extends Component {
   constructor(props) {
@@ -21,15 +40,29 @@ class Sample extends Component {
   render() {
     const { text, clicks, counter } = this.props;
     return (
-      <div>
-        <h1>Hello, {text} !</h1>
-        <div>Clicks: {clicks}</div>
-        <div>Counter: {counter}</div>
-        <div>
-          <button onClick={this.handleClickMinus}>minus</button>
-          <button onClick={this.handleClickPlus}>plus</button>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <div style={styles.container}>
+            <h1>Hello, {text}</h1>
+          <Badge badgeContent={clicks} primary={true}>
+            <Avatar>{counter}</Avatar>
+
+          </Badge>
+          <div>
+          </div>
+          <div>
+            <RaisedButton
+              label="Minus"
+              secondary={true}
+              onTouchTap={this.handleClickMinus}
+            />&nbsp;
+            <RaisedButton
+              label="Plus"
+              primary={true}
+              onTouchTap={this.handleClickPlus}
+            />
+          </div>
         </div>
-      </div>
+      </MuiThemeProvider>
     );
   }
 }
